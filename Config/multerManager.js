@@ -5,8 +5,8 @@ const path = require("path");
 // for only single-image
 const multerForImg = (filename) => {
 	// File upload folder
-	const UPLOADS_FOLDER = path.resolve(`../client/public/uploads/profile-img`);
-	// const UPLOADS_FOLDER = "./build/uploads/profile-img";
+	// const UPLOADS_FOLDER = path.resolve(`../client/public/uploads/profile-img`);
+	const UPLOADS_FOLDER = "./build/uploads/profile-img";
 
 	// define the storage
 	const storage = multer.diskStorage({
@@ -57,8 +57,8 @@ const multerForImg = (filename) => {
 // for all type of files
 const multerForAttachment = (fileName) => {
 	// File upload folder
-	const UPLOADS_FOLDER = path.resolve("../client/public/uploads/attachments");
-	// const UPLOADS_FOLDER = "./build/uploads/attachments";
+	// const UPLOADS_FOLDER = path.resolve("../client/public/uploads/attachments");
+	const UPLOADS_FOLDER = "./build/uploads/attachments";
 
 	// define the storage
 	const storage = multer.diskStorage({
