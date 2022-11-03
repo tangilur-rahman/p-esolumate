@@ -538,6 +538,22 @@ const addWorkHandler = async (req, res) => {
 	}
 };
 
+// for deleting added work-place
+const deleteAddWorked = async (req, res) => {
+	try {
+		await userModel.updateOne(
+			{ _id: req.currentUser._id },
+			{
+				$pull: { work: { _id: req.params._id } }
+			}
+		);
+
+		res.status(200).json({ message: "Work-place deleted successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
 module.exports = {
 	currentUser,
 	getProfile,
@@ -552,5 +568,6 @@ module.exports = {
 	savingInterest,
 	uploadFeature,
 	deleteFeature,
-	addWorkHandler
+	addWorkHandler,
+	deleteAddWorked
 };
