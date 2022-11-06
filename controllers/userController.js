@@ -538,6 +538,46 @@ const addWorkHandler = async (req, res) => {
 	}
 };
 
+// for updating work
+const updateWorkHandler = async (req, res) => {
+	try {
+		const {
+			company,
+			position,
+			city,
+			description,
+			fromYear,
+			fromMonth,
+			fromDay,
+			toYear,
+			toMonth,
+			toDay
+		} = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.currentUser._id, "work._id": req.query.id },
+			{
+				$set: {
+					"work.$.company": company,
+					"work.$.position": position,
+					"work.$.city": city,
+					"work.$.description": description,
+					"work.$.fromYear": fromYear,
+					"work.$.fromMonth": fromMonth,
+					"work.$.fromDay": fromDay,
+					"work.$.toYear": toYear,
+					"work.$.toMonth": toMonth,
+					"work.$.toDay": toDay
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add work successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
 // for deleting added work-place
 const deleteAddWorked = async (req, res) => {
 	try {
@@ -569,5 +609,6 @@ module.exports = {
 	uploadFeature,
 	deleteFeature,
 	addWorkHandler,
+	updateWorkHandler,
 	deleteAddWorked
 };

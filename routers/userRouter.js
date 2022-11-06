@@ -17,6 +17,7 @@ const {
 	uploadFeature,
 	deleteFeature,
 	addWorkHandler,
+	updateWorkHandler,
 	deleteAddWorked
 } = require("./../controllers/userController");
 const authUser = require("./../middleware/authUser");
@@ -83,6 +84,9 @@ user.get(
 
 // for adding work
 user.post("/about/add-work", addWorkHandler);
+
+// for updating work
+user.post("/about/update-work", authUser, updateWorkHandler);
 
 // for deleting added work-place
 user.get("/about/add-work/delete/:_id", authUser, deleteAddWorked);
