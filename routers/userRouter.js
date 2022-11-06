@@ -16,9 +16,12 @@ const {
 	savingInterest,
 	uploadFeature,
 	deleteFeature,
-	addWorkHandler,
-	updateWorkHandler,
-	deleteAddWorked
+	addWork,
+	updateWork,
+	deleteWorked,
+	addUniversity,
+	updateUniversity,
+	deleteUniversity
 } = require("./../controllers/userController");
 const authUser = require("./../middleware/authUser");
 const { multerForImg } = require("./../Config/multerManager");
@@ -83,12 +86,21 @@ user.get(
 );
 
 // for adding work
-user.post("/about/add-work", addWorkHandler);
+user.post("/about/add-work", addWork);
 
 // for updating work
-user.post("/about/update-work", authUser, updateWorkHandler);
+user.post("/about/update-work", authUser, updateWork);
 
 // for deleting added work-place
-user.get("/about/add-work/delete/:_id", authUser, deleteAddWorked);
+user.get("/about/delete-work/:_id", authUser, deleteWorked);
+
+// for adding university
+user.post("/about/add-university", addUniversity);
+
+// for updating university
+user.post("/about/update-university", authUser, updateUniversity);
+
+// for deleting added university
+user.get("/about/delete-university/:_id", authUser, deleteUniversity);
 
 module.exports = user;

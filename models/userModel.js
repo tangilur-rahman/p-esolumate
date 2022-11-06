@@ -76,6 +76,21 @@ const schema = mongoose.Schema(
 				toMonth: String,
 				toDay: Number
 			}
+		],
+
+		university: [
+			{
+				university_name: String,
+				major: String,
+				location: String,
+				description: String,
+				fromYear: Number,
+				fromMonth: String,
+				fromDay: Number,
+				toYear: Number,
+				toMonth: String,
+				toDay: Number
+			}
 		]
 	},
 	{ timestamps: true }
