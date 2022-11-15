@@ -91,7 +91,57 @@ const schema = mongoose.Schema(
 				toMonth: String,
 				toDay: Number
 			}
-		]
+		],
+
+		college: [
+			{
+				college_name: String,
+				location: String,
+				description: String,
+				fromYear: Number,
+				fromMonth: String,
+				fromDay: Number,
+				toYear: Number,
+				toMonth: String,
+				toDay: Number
+			}
+		],
+
+		school: [
+			{
+				school_name: String,
+				location: String,
+				description: String,
+				fromYear: Number,
+				fromMonth: String,
+				fromDay: Number,
+				toYear: Number,
+				toMonth: String,
+				toDay: Number
+			}
+		],
+
+		hometown: {
+			city: {
+				type: String,
+				default: ""
+			},
+			country: {
+				type: String,
+				default: ""
+			}
+		},
+
+		current_city: {
+			city: {
+				type: String,
+				default: ""
+			},
+			country: {
+				type: String,
+				default: ""
+			}
+		}
 	},
 	{ timestamps: true }
 );

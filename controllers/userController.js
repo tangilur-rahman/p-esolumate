@@ -688,8 +688,358 @@ const deleteUniversity = async (req, res) => {
 
 		res.status(200).json({ message: "Deleted university successfully." });
 	} catch (error) {
-		console.log(error.message);
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
 
+// for adding college
+const addCollege = async (req, res) => {
+	try {
+		const {
+			college_name,
+			location,
+			description,
+			fromYear,
+			fromMonth,
+			fromDay,
+			toYear,
+			toMonth,
+			toDay
+		} = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$push: {
+					college: {
+						college_name,
+						location,
+						description,
+						fromYear,
+						fromMonth,
+						fromDay,
+						toYear,
+						toMonth,
+						toDay
+					}
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add college successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for updating college
+const updateCollege = async (req, res) => {
+	try {
+		const {
+			college_name,
+			location,
+			description,
+			fromYear,
+			fromMonth,
+			fromDay,
+			toYear,
+			toMonth,
+			toDay
+		} = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.currentUser._id, "college._id": req.query.id },
+			{
+				$set: {
+					"college.$.college_name": college_name,
+					"college.$.location": location,
+					"college.$.description": description,
+					"college.$.fromYear": fromYear,
+					"college.$.fromMonth": fromMonth,
+					"college.$.fromDay": fromDay,
+					"college.$.toYear": toYear,
+					"college.$.toMonth": toMonth,
+					"college.$.toDay": toDay
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Update college successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for deleting added college
+const deleteCollege = async (req, res) => {
+	try {
+		await userModel.updateOne(
+			{ _id: req.currentUser._id },
+			{
+				$pull: { college: { _id: req.params._id } }
+			}
+		);
+
+		res.status(200).json({ message: "Deleted college successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for adding school
+const addSchool = async (req, res) => {
+	try {
+		const {
+			school_name,
+			location,
+			description,
+			fromYear,
+			fromMonth,
+			fromDay,
+			toYear,
+			toMonth,
+			toDay
+		} = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$push: {
+					school: {
+						school_name,
+						location,
+						description,
+						fromYear,
+						fromMonth,
+						fromDay,
+						toYear,
+						toMonth,
+						toDay
+					}
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add school successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for updating school
+const updateSchool = async (req, res) => {
+	try {
+		const {
+			school_name,
+			location,
+			description,
+			fromYear,
+			fromMonth,
+			fromDay,
+			toYear,
+			toMonth,
+			toDay
+		} = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.currentUser._id, "school._id": req.query.id },
+			{
+				$set: {
+					"school.$.school_name": school_name,
+					"school.$.location": location,
+					"school.$.description": description,
+					"school.$.fromYear": fromYear,
+					"school.$.fromMonth": fromMonth,
+					"school.$.fromDay": fromDay,
+					"school.$.toYear": toYear,
+					"school.$.toMonth": toMonth,
+					"school.$.toDay": toDay
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Update school successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for deleting added school
+const deleteSchool = async (req, res) => {
+	try {
+		await userModel.updateOne(
+			{ _id: req.currentUser._id },
+			{
+				$pull: { school: { _id: req.params._id } }
+			}
+		);
+
+		res.status(200).json({ message: "Deleted school successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for adding & updating home location
+const addHomeLocation = async (req, res) => {
+	try {
+		const { city, country } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					hometown: {
+						city,
+						country
+					}
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add hometown successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for deleting home location
+const deleteHomeLocation = async (req, res) => {
+	try {
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					hometown: {
+						city: "",
+						country: ""
+					}
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Updating hometown successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for adding & updating current-city location
+const addCurrentLocation = async (req, res) => {
+	try {
+		const { city, country } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					current_city: {
+						city,
+						country
+					}
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add current city successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for deleting current-city location
+const deleteCurrentLocation = async (req, res) => {
+	try {
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					current_city: {
+						city: "",
+						country: ""
+					}
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Updating current-city successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for adding & updating email
+const addEmail = async (req, res) => {
+	try {
+		const { email } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					email
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add email successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for deleting email
+const deleteEmail = async (req, res) => {
+	try {
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					email: ""
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Updating email successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for adding & updating phone
+const addPhone = async (req, res) => {
+	try {
+		const { phone } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					phone
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add phone successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for deleting phone
+const deletePhone = async (req, res) => {
+	try {
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					phone: ""
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Updating phone successfully." });
+	} catch (error) {
 		res.status(500).json({ error: "Maintenance mode, Try again later!" });
 	}
 };
@@ -713,5 +1063,19 @@ module.exports = {
 	deleteWorked,
 	addUniversity,
 	updateUniversity,
-	deleteUniversity
+	deleteUniversity,
+	addCollege,
+	updateCollege,
+	deleteCollege,
+	addSchool,
+	updateSchool,
+	deleteSchool,
+	addHomeLocation,
+	deleteHomeLocation,
+	addCurrentLocation,
+	deleteCurrentLocation,
+	addEmail,
+	deleteEmail,
+	addPhone,
+	deletePhone
 };
