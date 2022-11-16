@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 
 // for twilio start
 const sid = "ACa569254d3f3ec2b861ecb8d208011b09";
-const auth_token = "e4237598a0b7951e437b14ea69609681";
+const auth_token = "ade3f65ac348cfd14668528cf30f2e75";
 
 const twilio = require("twilio")(sid, auth_token);
 // for twilio end
@@ -229,25 +229,25 @@ const sendOtpLogIn = async (req, res) => {
 			if (checkEmail) {
 				// for sending email start
 				let transporter = nodemailer.createTransport({
-					service: "gmail",
+					service: "hotmail",
 					// host: "smtp.ethereal.email",
 					port: 587,
 					secure: false, // true for 465, false for other ports
 					auth: {
-						user: "mohammadtangilurrahaman@gmail.com", // generated ethereal user
-						pass: "ahhqpefxdjbzahwe" // generated ethereal password
+						user: "mohammadtangilurrahaman@outlook.com", // generated ethereal user
+						pass: "Nevergiveup1!!!" // generated ethereal password
 					}
 				});
 
 				// send mail with defined transport object
 				await transporter.sendMail({
-					from: "mohammadtangilurrahaman@gmail.com", // sender address
+					from: "mohammadtangilurrahaman@outlook.com", // sender address
 					to: `${selected}`, // list of receivers
-					subject: "ESOULMATE, Reset Password", // Subject line
+					subject: "ESOLUMATE, Reset Password", // Subject line
 					text: "hello",
 					html: `<p style="font-size : 18px"}}>
 				Hey there, Someone requested a new password for your 
-				<span style="color : blue">Esoulmate</span>  account.
+				<span style="color : blue">Esolumate</span>  account.
 				 
 				<br/> <br/>
 					Code:
@@ -267,7 +267,7 @@ const sendOtpLogIn = async (req, res) => {
 				await twilio.messages.create({
 					from: "+19289165450",
 					to: `+88${selected}`,
-					body: `Esoulmate,verification code is ${createOtp}`
+					body: `Esolumate, verification code is ${createOtp}`
 				});
 
 				res.status(200).json({ message: "OTP sended to your phone." });
@@ -334,25 +334,25 @@ const sendOtpSignUp = async (req, res) => {
 			if (email) {
 				// for sending email start
 				let transporter = nodemailer.createTransport({
-					service: "gmail",
+					service: "hotmail",
 					// host: "smtp.ethereal.email",
 					port: 587,
 					secure: false, // true for 465, false for other ports
 					auth: {
-						user: "mohammadtangilurrahaman@gmail.com", // generated ethereal user
-						pass: "ahhqpefxdjbzahwe" // generated ethereal password
+						user: "mohammadtangilurrahman@outlook.com", // generated ethereal user
+						pass: "Nevergiveup1!!!" // generated ethereal password
 					}
 				});
 
 				// send mail with defined transport object
 				await transporter.sendMail({
-					from: "mohammadtangilurrahaman@gmail.com", // sender address
+					from: "mohammadtangilurrahman@outlook.com", // sender address
 					to: `${selected}`, // list of receivers
-					subject: "ESOULMATE, Reset Password", // Subject line
+					subject: "ESOLUMATE, Verification Email", // Subject line
 					text: "hello",
 					html: `<p style="font-size : 18px"}}>
-				Hey there, Someone requested a new password for your 
-				<span style="color : blue">Esoulmate</span>  account.
+				Hey there, Someone requested to verify your 
+				<span style="color : blue">Email</span>  account.
 				 
 				<br/> <br/>
 					Code:
@@ -372,7 +372,7 @@ const sendOtpSignUp = async (req, res) => {
 				await twilio.messages.create({
 					from: "+19289165450",
 					to: `+88${selected}`,
-					body: `Esoulmate,verification code is ${createOtp}`
+					body: `Esolumate, verification code is ${createOtp}`
 				});
 
 				res.status(200).json({ message: "OTP sended to your phone." });
@@ -971,13 +971,14 @@ const deleteCurrentLocation = async (req, res) => {
 // for adding & updating email
 const addEmail = async (req, res) => {
 	try {
-		const { email } = req.body;
+		const { email, email_privacy } = req.body;
 
 		await userModel.updateOne(
 			{ _id: req.query.id },
 			{
 				$set: {
-					email
+					email,
+					email_privacy
 				}
 			}
 		);
@@ -995,7 +996,8 @@ const deleteEmail = async (req, res) => {
 			{ _id: req.query.id },
 			{
 				$set: {
-					email: ""
+					email: "",
+					email_privacy: "Public"
 				}
 			}
 		);
@@ -1009,13 +1011,14 @@ const deleteEmail = async (req, res) => {
 // for adding & updating phone
 const addPhone = async (req, res) => {
 	try {
-		const { phone } = req.body;
+		const { phone, phone_privacy } = req.body;
 
 		await userModel.updateOne(
 			{ _id: req.query.id },
 			{
 				$set: {
-					phone
+					phone,
+					phone_privacy
 				}
 			}
 		);
@@ -1033,12 +1036,66 @@ const deletePhone = async (req, res) => {
 			{ _id: req.query.id },
 			{
 				$set: {
-					phone: ""
+					phone: "",
+					phone_privacy: "Public"
 				}
 			}
 		);
 
 		res.status(200).json({ message: "Updating phone successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for adding & updating languages
+const addLanguages = async (req, res) => {
+	try {
+		req.currentUser.languages = req.body.languages;
+		await req.currentUser.save();
+
+		res.status(200).json({ message: "Added language successfully" });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for adding & updating religion
+const addReligion = async (req, res) => {
+	try {
+		const { religion_name, privacy } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					"religion.religion_name": religion_name,
+					"religion.privacy": privacy
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add religion successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for updating gender privacy
+const updateGenderPrivacy = async (req, res) => {
+	try {
+		const { gender_privacy } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					gender_privacy
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Update gender privacy successfully." });
 	} catch (error) {
 		res.status(500).json({ error: "Maintenance mode, Try again later!" });
 	}
@@ -1077,5 +1134,8 @@ module.exports = {
 	addEmail,
 	deleteEmail,
 	addPhone,
-	deletePhone
+	deletePhone,
+	addLanguages,
+	addReligion,
+	updateGenderPrivacy
 };

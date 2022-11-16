@@ -19,14 +19,32 @@ const schema = mongoose.Schema(
 			trim: true
 		},
 
+		email_privacy: {
+			type: String,
+			trim: true,
+			default: "Public"
+		},
+
 		phone: {
 			type: String,
 			trim: true
 		},
 
+		phone_privacy: {
+			type: String,
+			trim: true,
+			default: "Public"
+		},
+
 		gender: {
 			type: String,
 			trim: true
+		},
+
+		gender_privacy: {
+			type: String,
+			trim: true,
+			default: "Public"
 		},
 
 		password: {
@@ -140,6 +158,16 @@ const schema = mongoose.Schema(
 			country: {
 				type: String,
 				default: ""
+			}
+		},
+
+		languages: Array,
+
+		religion: {
+			religion_name: String,
+			privacy: {
+				type: String,
+				default: "Public"
 			}
 		}
 	},
