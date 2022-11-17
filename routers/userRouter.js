@@ -38,7 +38,8 @@ const {
 	deletePhone,
 	addLanguages,
 	addReligion,
-	updateGenderPrivacy
+	updateGenderPrivacy,
+	updateDOBPrivacy
 } = require("./../controllers/userController");
 const authUser = require("./../middleware/authUser");
 const { multerForImg } = require("./../Config/multerManager");
@@ -170,5 +171,8 @@ user.post("/about/add-religion", addReligion);
 
 // for updating gender-privacy
 user.post("/about/update-gender-privacy", updateGenderPrivacy);
+
+// for updating dob-privacy
+user.post("/about/update-dob-privacy", updateDOBPrivacy);
 
 module.exports = user;

@@ -1101,6 +1101,28 @@ const updateGenderPrivacy = async (req, res) => {
 	}
 };
 
+// for updating dob privacy
+const updateDOBPrivacy = async (req, res) => {
+	try {
+		const { date_of_birth_privacy } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					date_of_birth_privacy
+				}
+			}
+		);
+
+		res
+			.status(200)
+			.json({ message: "Update date of birth privacy successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
 module.exports = {
 	currentUser,
 	getProfile,
@@ -1137,5 +1159,6 @@ module.exports = {
 	deletePhone,
 	addLanguages,
 	addReligion,
-	updateGenderPrivacy
+	updateGenderPrivacy,
+	updateDOBPrivacy
 };

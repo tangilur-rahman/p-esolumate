@@ -70,6 +70,12 @@ const schema = mongoose.Schema(
 			trim: true
 		},
 
+		date_of_birth_privacy: {
+			type: String,
+			trim: true,
+			default: "Public"
+		},
+
 		page_type: {
 			type: String,
 			trim: true
