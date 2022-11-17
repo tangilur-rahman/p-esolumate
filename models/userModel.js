@@ -175,7 +175,13 @@ const schema = mongoose.Schema(
 				type: String,
 				default: "Public"
 			}
-		}
+		},
+
+		quotations: [
+			{
+				quote: String
+			}
+		]
 	},
 	{ timestamps: true }
 );

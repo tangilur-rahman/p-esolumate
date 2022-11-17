@@ -1123,6 +1123,64 @@ const updateDOBPrivacy = async (req, res) => {
 	}
 };
 
+// for adding quotation
+const addQuotation = async (req, res) => {
+	try {
+		const { quote } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$push: {
+					quotations: {
+						quote
+					}
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add quotation successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for updating quotation
+const updateQuotation = async (req, res) => {
+	try {
+		const { quote } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.currentUser._id, "quotations._id": req.query.id },
+			{
+				$set: {
+					"quotations.$.quote": quote
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Update quotation successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for deleting added quotation
+const deleteQuotation = async (req, res) => {
+	try {
+		await userModel.updateOne(
+			{ _id: req.currentUser._id },
+			{
+				$pull: { quotations: { _id: req.params._id } }
+			}
+		);
+
+		res.status(200).json({ message: "Deleted quotation successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
 module.exports = {
 	currentUser,
 	getProfile,
@@ -1160,5 +1218,8 @@ module.exports = {
 	addLanguages,
 	addReligion,
 	updateGenderPrivacy,
-	updateDOBPrivacy
+	updateDOBPrivacy,
+	addQuotation,
+	updateQuotation,
+	deleteQuotation
 };

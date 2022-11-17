@@ -39,7 +39,10 @@ const {
 	addLanguages,
 	addReligion,
 	updateGenderPrivacy,
-	updateDOBPrivacy
+	updateDOBPrivacy,
+	addQuotation,
+	updateQuotation,
+	deleteQuotation
 } = require("./../controllers/userController");
 const authUser = require("./../middleware/authUser");
 const { multerForImg } = require("./../Config/multerManager");
@@ -174,5 +177,14 @@ user.post("/about/update-gender-privacy", updateGenderPrivacy);
 
 // for updating dob-privacy
 user.post("/about/update-dob-privacy", updateDOBPrivacy);
+
+// for adding quotation Quotation
+user.post("/about/add-quote", addQuotation);
+
+// for updating quotation
+user.post("/about/update-quote", authUser, updateQuotation);
+
+// for deleting added quotation
+user.get("/about/delete-quote/:_id", authUser, deleteQuotation);
 
 module.exports = user;
