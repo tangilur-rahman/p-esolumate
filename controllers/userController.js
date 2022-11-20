@@ -26,7 +26,17 @@ const currentUser = (req, res) => {
 // for returning selected profile
 const getProfile = async (req, res) => {
 	try {
-		const document = await userModel.findOne({ _id: req.params.profile_id });
+		let document;
+
+		document = await userModel.findOne({
+			username: req.params.profile_id
+		});
+
+		if (!document) {
+			document = await userModel.findOne({
+				_id: req.params.profile_id
+			});
+		}
 
 		if (document) {
 			res.status(200).json(document);
@@ -1123,6 +1133,64 @@ const updateDOBPrivacy = async (req, res) => {
 	}
 };
 
+// for adding nickname
+const addNickname = async (req, res) => {
+	try {
+		const { nickname } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$push: {
+					nicknames: {
+						nickname
+					}
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add nickname successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for updating nickname
+const updateNickname = async (req, res) => {
+	try {
+		const { nickname } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.currentUser._id, "nicknames._id": req.query.id },
+			{
+				$set: {
+					"nicknames.$.nickname": nickname
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Update nickname successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for deleting added nickname
+const deleteNickname = async (req, res) => {
+	try {
+		await userModel.updateOne(
+			{ _id: req.currentUser._id },
+			{
+				$pull: { nicknames: { _id: req.params._id } }
+			}
+		);
+
+		res.status(200).json({ message: "Deleted nickname successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
 // for adding quotation
 const addQuotation = async (req, res) => {
 	try {
@@ -1181,6 +1249,63 @@ const deleteQuotation = async (req, res) => {
 	}
 };
 
+// for adding & updating details
+const addDetails = async (req, res) => {
+	try {
+		const { details } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					details
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add details successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for adding & updating username
+const addUsername = async (req, res) => {
+	try {
+		const { username } = req.body;
+
+		await userModel.updateOne(
+			{ _id: req.query.id },
+			{
+				$set: {
+					username
+				}
+			}
+		);
+
+		res.status(200).json({ message: "Add username successfully." });
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
+// for searching username
+const searchingUsername = async (req, res) => {
+	try {
+		const document = await userModel.findOne({
+			username: { $regex: `\\b${req.query.username}\\b`, $options: "i" }
+		});
+
+		if (document) {
+			res.status(200).json(document?.username);
+		} else {
+			res.status(200).json(false);
+		}
+	} catch (error) {
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+	}
+};
+
 module.exports = {
 	currentUser,
 	getProfile,
@@ -1219,7 +1344,13 @@ module.exports = {
 	addReligion,
 	updateGenderPrivacy,
 	updateDOBPrivacy,
+	addNickname,
+	updateNickname,
+	deleteNickname,
 	addQuotation,
 	updateQuotation,
-	deleteQuotation
+	deleteQuotation,
+	addDetails,
+	addUsername,
+	searchingUsername
 };

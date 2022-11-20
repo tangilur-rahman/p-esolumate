@@ -177,11 +177,28 @@ const schema = mongoose.Schema(
 			}
 		},
 
+		nicknames: [
+			{
+				nickname: String
+			}
+		],
+
 		quotations: [
 			{
 				quote: String
 			}
-		]
+		],
+
+		details: {
+			type: String,
+			trim: true
+		},
+
+		username: {
+			type: String,
+			trim: true,
+			default: ""
+		}
 	},
 	{ timestamps: true }
 );

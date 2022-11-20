@@ -40,9 +40,15 @@ const {
 	addReligion,
 	updateGenderPrivacy,
 	updateDOBPrivacy,
+	addNickname,
+	updateNickname,
+	deleteNickname,
 	addQuotation,
 	updateQuotation,
-	deleteQuotation
+	deleteQuotation,
+	addDetails,
+	addUsername,
+	searchingUsername
 } = require("./../controllers/userController");
 const authUser = require("./../middleware/authUser");
 const { multerForImg } = require("./../Config/multerManager");
@@ -178,7 +184,16 @@ user.post("/about/update-gender-privacy", updateGenderPrivacy);
 // for updating dob-privacy
 user.post("/about/update-dob-privacy", updateDOBPrivacy);
 
-// for adding quotation Quotation
+// for adding nickname
+user.post("/about/add-nickname", addNickname);
+
+// for updating nickname
+user.post("/about/update-nickname", authUser, updateNickname);
+
+// for deleting added nickname
+user.get("/about/delete-nickname/:_id", authUser, deleteNickname);
+
+// for adding quotation
 user.post("/about/add-quote", addQuotation);
 
 // for updating quotation
@@ -186,5 +201,14 @@ user.post("/about/update-quote", authUser, updateQuotation);
 
 // for deleting added quotation
 user.get("/about/delete-quote/:_id", authUser, deleteQuotation);
+
+// for adding & updating description
+user.post("/about/add-details", addDetails);
+
+// for adding & updating username
+user.post("/about/add-username", addUsername);
+
+// for searching username
+user.get("/about/search-username", searchingUsername);
 
 module.exports = user;
