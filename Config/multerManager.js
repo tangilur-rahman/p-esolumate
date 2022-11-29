@@ -85,7 +85,7 @@ const multerForAttachment = (fileName) => {
 	let upload = multer({
 		storage: storage,
 		limits: {
-			fileSize: 52428800 // 50MB
+			fileSize: 524288000 // 50MB
 		},
 		fileFilter: (req, file, cb) => {
 			if (file.fieldname === fileName) {

@@ -18,7 +18,12 @@ const {
 // for submitting post with attachment or without
 const uploadAtt = multerForAttachment("file");
 
-post.post("/attachment", authUser, uploadAtt.single("file"), submitAttachments);
+post.post(
+	"/attachment",
+	authUser,
+	uploadAtt.array("file", 10),
+	submitAttachments
+);
 
 // for returning specific profile's all posts
 post.get("/profile/:profile_id", authUser, profilePosts);

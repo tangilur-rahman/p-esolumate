@@ -7,7 +7,7 @@ const postModel = require("./../models/postModel");
 const submitAttachments = async (req, res) => {
 	try {
 		const { text, privacy, category } = req.body;
-		const fileName = req.file ? req.file.filename : "";
+		const fileName = req.files?.length > 0 ? req.files[0].filename : "";
 
 		// for getting file_type start
 		const ext = fileName && fileName.split(".").slice(-1)[0];
@@ -37,12 +37,16 @@ const submitAttachments = async (req, res) => {
 		const file_type = fileName ? await selectType() : "";
 		// for getting file_type end
 
+		// for get files array
+		const fileArr =
+			req.files?.length > 0 ? req.files.map((value) => value.filename) : "";
+
 		const document = await postModel({
 			user_id: req.currentUser._id,
 			category,
 			privacy,
 			text,
-			attachment: fileName,
+			attachments: fileArr,
 			file_type
 		});
 		await document.save();

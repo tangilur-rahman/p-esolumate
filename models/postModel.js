@@ -25,11 +25,7 @@ const schema = mongoose.Schema(
 			default: ""
 		},
 
-		attachment: {
-			type: String,
-			trim: true,
-			default: ""
-		},
+		attachments: Array,
 
 		file_type: {
 			type: String,
