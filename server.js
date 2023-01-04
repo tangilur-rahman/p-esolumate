@@ -23,19 +23,6 @@ app.use(cookie());
 app.use("/user", userRouter);
 app.use("/post", postRouter);
 
-// deploy on heroku
-if (process.env.NODE_ENV == "production") {
-	app.use(express.static("build"));
-
-	app.get("*", (req, res) => {
-		res.sendFile(path.join(__dirname + "/build/index.html"));
-	});
-} else {
-	app.get("/", (req, res) => {
-		res.send("client disconnected");
-	});
-}
-
 // submit on remote server start
 if (process.env.NODE_ENV == "production") {
 	app.use(express.static("build"));
