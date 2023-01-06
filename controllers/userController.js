@@ -239,19 +239,19 @@ const sendOtpLogIn = async (req, res) => {
 			if (checkEmail) {
 				// for sending email start
 				let transporter = nodemailer.createTransport({
-					service: "hotmail",
+					host: "smtp-mail.outlook.com",
 					// host: "smtp.ethereal.email",
 					port: 587,
 					secure: false, // true for 465, false for other ports
 					auth: {
-						user: "mohammadtangilurrahaman@outlook.com", // generated ethereal user
-						pass: "Nevergiveup1!!!" // generated ethereal password
+						user: process.env.nodemailer_email, // generated ethereal user
+						pass: process.env.nodemailer_pass // generated ethereal password
 					}
 				});
 
 				// send mail with defined transport object
 				await transporter.sendMail({
-					from: "mohammadtangilurrahaman@outlook.com", // sender address
+					from: process.env.nodemailer_email, // sender address
 					to: `${selected}`, // list of receivers
 					subject: "ESOLUMATE, Reset Password", // Subject line
 					text: "hello",
@@ -344,19 +344,19 @@ const sendOtpSignUp = async (req, res) => {
 			if (email) {
 				// for sending email start
 				let transporter = nodemailer.createTransport({
-					service: "hotmail",
+					host: "smtp-mail.outlook.com",
 					// host: "smtp.ethereal.email",
 					port: 587,
 					secure: false, // true for 465, false for other ports
 					auth: {
-						user: "mohammadtangilurrahman@outlook.com", // generated ethereal user
-						pass: "Nevergiveup1!!!" // generated ethereal password
+						user: process.env.nodemailer_email, // generated ethereal user
+						pass: process.env.nodemailer_pass // generated ethereal password
 					}
 				});
 
 				// send mail with defined transport object
 				await transporter.sendMail({
-					from: "mohammadtangilurrahman@outlook.com", // sender address
+					from: process.env.nodemailer_email, // sender address
 					to: `${selected}`, // list of receivers
 					subject: "ESOLUMATE, Verification Email", // Subject line
 					text: "hello",
