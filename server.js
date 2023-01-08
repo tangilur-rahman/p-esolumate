@@ -9,11 +9,11 @@ const customErrorHandler = require("./middleware/errorHandler");
 const userRouter = require("./routers/userRouter");
 const postRouter = require("./routers/postRouter");
 
-// express server
-const app = express();
-
 // connection with mongodb
 require("./Config/ConnectMongoDB");
+
+// express server
+const app = express();
 
 // application-level middleware
 app.use(express.json());
