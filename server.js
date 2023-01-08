@@ -9,11 +9,11 @@ const customErrorHandler = require("./middleware/errorHandler");
 const userRouter = require("./routers/userRouter");
 const postRouter = require("./routers/postRouter");
 
-// connection with mongodb
-require("./Config/ConnectMongoDB");
-
 // express server
 const app = express();
+
+// connection with mongodb
+require("./Config/ConnectMongoDB");
 
 // application-level middleware
 app.use(express.json());
@@ -24,17 +24,17 @@ app.use("/user", userRouter);
 app.use("/post", postRouter);
 
 // submit on remote server start
-// if (process.env.NODE_ENV == "production") {
-app.use(express.static("build"));
+if (process.env.NODE_ENV == "production") {
+	app.use(express.static("build"));
 
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname + "/build/index.html"));
-});
-// } else {
-// 	app.get("/", (req, res) => {
-// 		res.send("client disconnected");
-// 	});
-// }
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(__dirname + "/build/index.html"));
+	});
+} else {
+	app.get("/", (req, res) => {
+		res.send("client disconnected");
+	});
+}
 // submit on remote server end
 
 // error handler

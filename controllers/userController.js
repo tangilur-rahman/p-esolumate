@@ -139,9 +139,7 @@ const signUp = async (req, res) => {
 			}
 		}
 	} catch (error) {
-		console.log(error.message);
-
-		res.status(500).json({ error: error.message });
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
 	}
 };
 
@@ -181,8 +179,7 @@ const LogIn = async (req, res) => {
 			res.status(400).json({ error: "Invalid Account!" });
 		}
 	} catch (error) {
-		console.log(error.message);
-		res.status(500).json({ error: error.message });
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
 	}
 };
 
@@ -289,9 +286,7 @@ const sendOtpLogIn = async (req, res) => {
 			res.status(400).json({ error: "Authentication Failed!" });
 		}
 	} catch (error) {
-		console.log(error.message);
-
-		res.status(500).json({ error: error.message });
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
 	}
 };
 
@@ -394,7 +389,7 @@ const sendOtpSignUp = async (req, res) => {
 			}
 		}
 	} catch (error) {
-		res.status(500).json({ error: error.message });
+		res.status(500).json({ error: "Maintenance mode, Try again later!" });
 	}
 };
 
