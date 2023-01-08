@@ -141,7 +141,7 @@ const signUp = async (req, res) => {
 	} catch (error) {
 		console.log(error.message);
 
-		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+		res.status(500).json({ error: error.message });
 	}
 };
 
@@ -182,7 +182,7 @@ const LogIn = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error.message);
-		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+		res.status(500).json({ error: error.message });
 	}
 };
 
@@ -291,7 +291,7 @@ const sendOtpLogIn = async (req, res) => {
 	} catch (error) {
 		console.log(error.message);
 
-		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+		res.status(500).json({ error: error.message });
 	}
 };
 
@@ -394,7 +394,7 @@ const sendOtpSignUp = async (req, res) => {
 			}
 		}
 	} catch (error) {
-		res.status(500).json({ error: "Maintenance mode, Try again later!" });
+		res.status(500).json({ error: error.message });
 	}
 };
 
